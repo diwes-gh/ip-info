@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="es">
+  <head>
+    <meta charset="utf-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>IP-Info | DIWES</title>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@picocss/pico@1/css/pico.min.css"/>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+  </head>
+  <body>
+    <nav class="container-fluid">
+      <ul>
+        <li>
+          <a href="https://apps.diwes.es/ip-info" class="contrast" onclick="event.preventDefault()"><strong>IP-Info</strong></a>
+        </li>
+      </ul>
+      <ul>
+        <li>
+          <details role="list" dir="rtl">
+            <summary aria-haspopup="listbox" role="link" class="secondary">Tema</summary>
+            <ul role="listbox">
+              <li><a href="#" data-theme-switcher="auto">Auto</a></li>
+              <li><a href="#" data-theme-switcher="light">Claro</a></li>
+              <li><a href="#" data-theme-switcher="dark">Oscuro</a></li>
+            </ul>
+          </details>
+        </li>
+      </ul>
+    </nav>
+    <div class="container mt-5" style="margin-top: 10%;">
+        <form id="ipForm">
+            <div class="mb-3">
+                <label for="ipInput" class="form-label">Ingresa una dirección IP:</label>
+                <input type="text" id="ipInput" class="form-control" placeholder="Introduce aquí la IP" required>
+                <small>Por ejemplo: 54.85.132.205</small>
+            </div>
+            <button type="submit" class="btn btn-primary" data-tooltip="Datos obtenidos de ipinfo.io" data-placement="bottom">Obtener información</button>
+        </form>
+        <pre id="result" class="card mt-4 mx-2 p-2" style="padding: 1%;">Esperando Datos</pre>
+    </div>
+    <footer class="container-fluid text-center" style="text-align: center;">
+      <small>Código en <a href="https://github.com/diwes-gh/ip-info" target="_blank" class="secondary">GitHub</a> •
+        <a href="https://github.com/diwes-gh/ip-info" target="_blank" class="secondary" id="contentVersionLink"></a>
+    </footer>
+    <script>
+        $("#ipForm").submit(function(event) {
+            event.preventDefault();
+            var ipAddress = $("#ipInput").val();
+            var apiUrl = "assets/php/get_ip_info.php?ip=" + ipAddress;
+            $.get(apiUrl, function(data) {
+                $("#result").html(JSON.stringify(data, null, 2));
+            }).fail(function() {
+                $("#result").html("Error al obtener la información.");
+            });
+        });
+        fetch("VERSION")
+            .then(response => response.text())
+            .then(version => {
+                const contentVersionLink = document.getElementById("contentVersionLink");
+                contentVersionLink.textContent = `${version}`;
+            })
+            .catch(error => console.error("Error al obtener el contenido del archivo VERSION:", error));
+    </script>
+    <script src="assets/js/theme.js"></script>
+  </body>
+</html>
