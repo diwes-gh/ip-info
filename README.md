@@ -5,7 +5,7 @@
 
 # IP-Info
 
-En este proyecto hemos utilizado la API del widget de tradingview en javascript, para mostrar un grafio en tiempo real, el precio del Bitcoin.
+Información sobre direcciones IP
 
 ## Link
 
